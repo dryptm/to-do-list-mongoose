@@ -13,11 +13,23 @@
     </head>
     <body>
         <div class="box" id="heading">
-            <h1><%=kindofday%></h1>
+            <h1><%=list_title%></h1>
         </div>
 
 
+
         <div class="box">
+            
+            
+            <%new_item.forEach(function(item){%>
+             <form action="/delete" method="POST">
+                <div class="item">
+                    <input type="checkbox" name ="checkbox" value="<%=item._id%>" onchange="this.form.submit()">
+                        <p><%=item.name%></p><br>
+                </div>
+            </form>
+            <%})%>
+            <!--
             <%for(var i=0;i<new_item.length;i++){%>
                 
             <div class="item">
@@ -25,10 +37,10 @@
                     <p><%=new_item[i].name%></p><br>
             </div>
             <%}%>
-            
+            -->
             <form class="item" action="/" method="POST">
                 <input type="text" name="input" placeholder="New Item" autocomplete="off">
-                <button type="submit" name ="list" value=<%=kindofday%> >+</button>
+                <button type="submit" name ="list" value=<%=list_title%> >+</button>
             </form>
         </div>
         <script src="" async defer></script>
