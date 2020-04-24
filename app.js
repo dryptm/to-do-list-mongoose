@@ -50,14 +50,15 @@ app.get("/:customListname",function(req,res){
                 console.log("doesnt exist")
                 const list=new List({
                     name :customListname,
-                    items:defaultitems
+                    items:[]
                 })
                 list.save();
                 res.redirect("/"+customListname);
-               // res.render("list",{list_title:customListname,new_item:defaultitems})
+               
             }
         }
     })
+    
 })
 
 
@@ -70,6 +71,34 @@ app.get("/", function (req, res) {
         })
     })
 
+    const listname=req.body.list;
+    app.post("/delete", function (req, res) {
+        const b = req.body.checkbox;
+        
+        console.log(b)
+        // if(listname==="Today")
+        // {
+        //     Item.findByIdAndRemove(b, function(err)
+        //     {
+        //         if (err)
+        //         {console.log("there's osme error")}
+        //         else
+        //         {res.redirect("/")}
+        //     })
+        // }
+        // else{
+        //     Item.findByIdAndRemove(b, function(err)
+        //     {
+        //         if (err)
+        //         {console.log("there's osme error")}
+        //         else
+        //         {res.redirect("/"+listname)}
+        //     })
+    
+        // }
+        
+    
+    })
    
 });
 
@@ -77,6 +106,7 @@ app.post("/", function (req, res) {
         var a = req.body.input;
        
         const listname=req.body.list;
+        
         if (listname==="Today")
             {
                 Item.create({
@@ -85,20 +115,21 @@ app.post("/", function (req, res) {
                 
                 res.redirect("/");
             }
+        else
+        {   
+            const itemName=req.body.input;
+            const item=new Item({
+                name:itemName
+            })
+            List.findOne({name:listname},function(err,foundlist){
+                foundlist.items.push(item)
+                foundlist.save();
+                res.redirect("/"+listname)
+            })
+        }
 });
 
 
-app.post("/delete", function (req, res) {
-    const b = req.body.checkbox;
-    Item.findByIdAndRemove(b, function(err)
-    {
-        if (err)
-        {console.log("there's osme error")}
-        else
-        {res.redirect("/")}
-    })
-
-})
 
 
 
