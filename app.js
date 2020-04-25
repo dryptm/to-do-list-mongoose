@@ -71,34 +71,8 @@ app.get("/", function (req, res) {
         })
     })
 
-    const listname=req.body.list;
-    app.post("/delete", function (req, res) {
-        const b = req.body.checkbox;
-        
-        console.log(b)
-        // if(listname==="Today")
-        // {
-        //     Item.findByIdAndRemove(b, function(err)
-        //     {
-        //         if (err)
-        //         {console.log("there's osme error")}
-        //         else
-        //         {res.redirect("/")}
-        //     })
-        // }
-        // else{
-        //     Item.findByIdAndRemove(b, function(err)
-        //     {
-        //         if (err)
-        //         {console.log("there's osme error")}
-        //         else
-        //         {res.redirect("/"+listname)}
-        //     })
     
-        // }
-        
     
-    })
    
 });
 
@@ -129,7 +103,36 @@ app.post("/", function (req, res) {
         }
 });
 
+app.post("/delete", function (req, res) {
+    const b = req.body.checkbox;
+    const listName=req.body.listName;
+    console.log(listName)
+    if(listName==="Today")
+    {
+        Item.findByIdAndRemove(b, function(err)
+        {
+            if (err)
+            {console.log("there's osme error")}
+            else
+            {res.redirect("/")}
+        })
+    }
+    else{
+        List.findOneAndUpdate({name :listName},{$pull:{items:{_id:b}}},function(err){
+            if(err)
+            {
+                console.log("there is some error in post(/delete) else statement")
+            }
+            else
+            {
+                res.redirect("/"+listName)
+            }
+        })
 
+    }
+    
+
+})
 
 
 
