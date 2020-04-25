@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
+const lodash=require("lodash");
 
 /*const request=require("request");
 const https=require("https");*/
@@ -35,7 +36,7 @@ const List=mongoose.model("List",listSchema);
 
 
 app.get("/:customListname",function(req,res){
-    const customListname=req.params.customListname;
+    const customListname=lodash.capitalize(req.params.customListname);
     console.log(customListname);
     
     List.findOne({name :customListname},function(err,foundlist){
